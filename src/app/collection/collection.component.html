@@ -19,7 +19,10 @@
       <p mat-line>
         <span>{{book.author}}</span>
       </p>
-      <p mat-line> {{book.rating | ratingCategory}} </p>
+      <p mat-line>
+        {{book.rating | ratingCategory}}
+        <my-rating [rating]="book.rating" [book]="book" (ratingClicked)="onRatingUpdate($event)"> </my-rating>
+      </p>
       <p mat-line>
         <span [class]="book.isCheckedOut ? 'chip chip-danger' : 'chip chip-success'"> {{book.isCheckedOut ? 'Checked-Out' : 'Available'}} </span>
       </p>
@@ -27,4 +30,4 @@
   </mat-list>
 </div>
 
-<input type="text" [ngModel]="myValue | percentage" (ngModelChange)="watchMyValue($event)" />
+<!--<input type="text" [ngModel]="myValue | percentage" (ngModelChange)="watchMyValue($event)" />-->
