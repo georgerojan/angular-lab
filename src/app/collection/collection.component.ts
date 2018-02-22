@@ -10,7 +10,6 @@ import { DataService } from '../services/data.service';
 })
 export class CollectionComponent implements OnInit {
 
-  myValue: any = 20;
   pageTitle: string; //property which will be shown in the panel header 
   books: Array<Ibook> = null;
   showOperatingHours: boolean = false; //property for message visibility and toggle button text 
@@ -25,20 +24,7 @@ export class CollectionComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.books = this._dataService.getBooks();
-  }
-
-  watchMyValue(proposedValue: string) {
-    if (proposedValue)
-      proposedValue = proposedValue.replace('%', '');
-        
-    console.log(this.myValue);
-    console.log(proposedValue);
-    proposedValue = proposedValue + '%';
-    console.log(proposedValue);
-
-    this.myValue = proposedValue;
-    return proposedValue;
+    this.getBooks();
   }
 
   updateMessage(message: string, type: string): void { 
@@ -49,8 +35,24 @@ export class CollectionComponent implements OnInit {
     }
   }
 
+  getBooks(): void {
+    this._dataService.getBooks().subscribe( 
+      books => this.books = books,
+      error => this.updateMessage(<any>error, 'ERROR');
+    )
+  }
+
   onRatingUpdate(book: Ibook): void { 
     this.updateMessage(book.title, " Rating has been updated"); 
   } 
+
+  findRatingColor(colorValue:number): string {
+    if (colorValue <= 2)
+      return "Poor";
+    else if (colorValue <= 4)
+      return "Fine";
+    else
+      return "Excellent";
+  }
 
 }

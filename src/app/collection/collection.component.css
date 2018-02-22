@@ -4,3 +4,14 @@
 
 .chip-success {   background-color: #18bc9c; } .chip-danger {   background-color: #e74c3c; } .add-btn {   padding: 8px 65px; }
 
+.fine {
+    color: blue;
+}
+
+.poor {
+    color: red;
+}
+
+.excellent {
+    color: green;
+}
