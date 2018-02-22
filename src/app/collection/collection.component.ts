@@ -38,8 +38,8 @@ export class CollectionComponent implements OnInit {
   getBooks(): void {
     this._dataService.getBooks().subscribe( 
       books => this.books = books,
-      error => this.updateMessage(<any>error, 'ERROR');
-    )
+      error => this.updateMessage(<any>error, 'ERROR')
+    );
   }
 
   onRatingUpdate(book: Ibook): void { 
