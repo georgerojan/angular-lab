@@ -8,5 +8,5 @@ import { DataService } from './services/data.service';
   providers: [DataService]
 })
 export class AppComponent {
-  title = 'app';
+  title = 'My Little Library';
 }

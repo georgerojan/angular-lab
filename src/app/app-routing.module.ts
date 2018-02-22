@@ -1,10 +1,20 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { HelpComponent } from './help/help.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { AboutComponent } from "./about/about.component";
+import { CollectionComponent } from "./collection/collection.component";
+import { BookDetailComponent } from './book-detail/book-detail.component'; 
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: "about", component: AboutComponent },
+  { path: "collection", component: CollectionComponent },
+  { path: "collection/:id", component: BookDetailComponent},
+  { path: "help", component: HelpComponent },
+  { path: "", redirectTo: "/about", pathMatch: "full" }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

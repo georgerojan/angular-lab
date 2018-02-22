@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'my-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, OnDestroy {
 
   pageTitle:string = "About Me";
   constructor() { }
 
-  ngOnInit() {    
+  ngOnInit() {  
+    console.log('About Me - Initialized');  
+  }
+
+  ngOnDestroy() {
+    console.log('About Me - Destroyed');
   }
 
 }
