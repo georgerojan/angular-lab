@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Ibook } from '../Ibook';
 import { MatSnackBar } from '@angular/material'; 
 import { DataService } from '../services/data.service'; 
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'my-collection',
@@ -16,6 +17,8 @@ export class CollectionComponent implements OnInit {
   openingTime: Date; //property that shows the opening time 
   closingTime: Date; //property that shows the closing time
 
+  searchTerm$: Subject<string> = new Subject<string>();
+
   constructor(private _snackBar: MatSnackBar, private _dataService: DataService) {
     this.openingTime = new Date(); 
     this.openingTime.setHours(10, 0); 
@@ -25,6 +28,10 @@ export class CollectionComponent implements OnInit {
 
   ngOnInit() {
     this.getBooks();
+    this._dataService.search(this.searchTerm$)
+      .subscribe(books => {
+        this.books = books;
+      });
   }
 
   updateMessage(message: string, type: string): void { 
@@ -43,7 +50,7 @@ export class CollectionComponent implements OnInit {
   }
 
   onRatingUpdate(book: Ibook): void { 
-    this.updateMessage(book.title, " Rating has been updated"); 
+    this.updateMessage(book.title, "Rating has been updated"); 
   } 
 
   findRatingColor(colorValue:number): string {

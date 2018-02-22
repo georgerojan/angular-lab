@@ -3,6 +3,9 @@ import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs/observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 import { Ibook } from "../ibook";
 
 @Injectable()
@@ -52,10 +55,33 @@ export class DataService {
     return Observable.throw(errMsg);
   }
 
-  getBooks(): Observable<Array<Ibook>> {
-    return this._http.get(this._booksUrl + "/GetBooks")
+  getBooks_Old_1(): Observable<Array<Ibook>> {
+    return this._http
+      .get(this._booksUrl + "/GetBooks")
       .map((response: Response) => {
         let data: Ibook[] = <Ibook[]>response.json();
+        return data;
+      })
+      .catch(this.handleError);
+  }
+
+  search(terms: Observable<string>) {
+    return terms
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(term => this.getBooks(term));
+  }
+
+  getBooks(query?: string): Observable<Ibook[]> {
+    return this._http
+      .get(this._booksUrl + "/GetBooks")
+      .map((response: Response) => {
+        let data: Ibook[] = <Ibook[]>response.json();
+        if (query != null && query.length > 0) {
+          data = data.filter(
+            data => data.author.includes(query) || data.title.includes(query)
+          );
+        }
         return data;
       })
       .catch(this.handleError);
